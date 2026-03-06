@@ -70,7 +70,7 @@ interface QRCodeItem {
 
 type QRStyle = "black-on-white" | "white-on-black" | "white-transparent";
 
-function SortableBlock({ id, block, onRemove }: { id: string, block: TemplateBlock, onRemove: (id: string) => void, key?: string }) {
+function SortableBlock({ id, block, onRemove, onUpdate }: { id: string, block: TemplateBlock, onRemove: (id: string) => void, onUpdate: (id: string, value: string) => void, key?: string }) {
   const {
     attributes,
     listeners,
@@ -111,9 +111,19 @@ function SortableBlock({ id, block, onRemove }: { id: string, block: TemplateBlo
         <div className="p-1 bg-zinc-100 rounded text-zinc-600">
           {getIcon()}
         </div>
-        <span className="text-xs font-bold text-zinc-700 truncate">
-          {block.value}
-        </span>
+        {block.type === 'text' ? (
+          <input 
+            type="text"
+            value={block.value}
+            onChange={(e) => onUpdate(id, e.target.value)}
+            className="text-xs font-bold text-zinc-700 bg-transparent border-none p-0 focus:ring-0 w-full"
+            placeholder="Edit text..."
+          />
+        ) : (
+          <span className="text-xs font-bold text-zinc-700 truncate">
+            {block.value}
+          </span>
+        )}
       </div>
       <button 
         onClick={() => onRemove(id)}
@@ -176,6 +186,10 @@ export default function App() {
 
   const removeBlock = (id: string) => {
     setTemplateBlocks(templateBlocks.filter(b => b.id !== id));
+  };
+
+  const updateBlock = (id: string, value: string) => {
+    setTemplateBlocks(templateBlocks.map(b => b.id === id ? { ...b, value } : b));
   };
 
   const addColumn = () => {
@@ -654,6 +668,7 @@ export default function App() {
                           id={block.id} 
                           block={block} 
                           onRemove={removeBlock} 
+                          onUpdate={updateBlock}
                         />
                       ))}
                     </div>
@@ -694,10 +709,7 @@ export default function App() {
                     New Line
                   </button>
                   <button
-                    onClick={() => {
-                      const text = prompt("Enter custom text:");
-                      if (text) addBlock('text', text);
-                    }}
+                    onClick={() => addBlock('text', 'Custom Text')}
                     className="px-3 py-1.5 bg-white border border-zinc-200 rounded-lg text-[10px] font-bold text-zinc-600 hover:border-zinc-900 hover:text-zinc-900 transition-all flex items-center gap-1.5"
                   >
                     <Type className="w-3 h-3" />
