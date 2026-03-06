@@ -1,0 +1,5 @@
+{
+  "name": "Bulk QR Session Generator",
+  "description": "Generate bulk QR codes from CSV-like data with custom templates and download them individually or as a ZIP session.",
+  "requestFramePermissions": []
+}
