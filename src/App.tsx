@@ -272,10 +272,9 @@ export default function App() {
         // Implementing specific settings from Python snippet:
         // version=1, error_correction=L, box_size=10 (handled by width), border=4
         const dataUrl = await QRCode.toDataURL(qrContent, {
-          version: 1,
           errorCorrectionLevel: 'L',
           margin: 4,
-          width: 400, // Roughly box_size=10 for version 1
+          width: 400,
           color: {
             dark: darkColor,
             light: lightColor,
