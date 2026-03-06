@@ -330,7 +330,7 @@ export default function App() {
     <footer className="border-t border-zinc-100 py-12 px-8 text-center space-y-4">
       <div className="flex flex-col items-center gap-2">
         <p className="text-zinc-400 text-sm">
-          Made with ❤️ by <span className="font-bold text-zinc-900">Mars L. Benitez</span>
+          Created by <span className="font-bold text-zinc-900">Mars L. Benitez</span>
         </p>
         <button 
           onClick={() => setShowSuggestionForm(true)}
